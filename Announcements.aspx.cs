@@ -15,15 +15,25 @@ namespace TanglewoodLMS
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Date.Text = (DateTime.Now).ToString().Substring(0, Math.Min(10, (DateTime.Now).ToString().Length));
-            loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
-            nameButton.Text = currentUser.Name + "!";
-            SqlConnection con = CreateConnection();
-            SqlDataReader reader = GetAnnouncements();
-            if (reader != null)
+            if (!IsPostBack)
             {
-                repeaterAnnouncements.DataSource = reader;
-                repeaterAnnouncements.DataBind();
+                try
+                {
+                    Date.Text = (DateTime.Now).ToString().Substring(0, Math.Min(10, (DateTime.Now).ToString().Length));
+                    loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
+                    nameButton.Text = currentUser.Name + "!";
+                    SqlConnection con = CreateConnection();
+                    SqlDataReader reader = GetAnnouncements();
+                    if (reader != null)
+                    {
+                        repeaterAnnouncements.DataSource = reader;
+                        repeaterAnnouncements.DataBind();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
             }
         }
 
