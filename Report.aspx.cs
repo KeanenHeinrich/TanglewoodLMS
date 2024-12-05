@@ -50,7 +50,7 @@ namespace TanglewoodLMS
             }
             else
             {
-                //ClearMarkbook();
+                ClearMarkbook(reportView);
             }
         }
 
@@ -63,7 +63,7 @@ namespace TanglewoodLMS
             }
             else
             {
-                //ClearMarkbook();
+                ClearMarkbook(reportView);
             }
         }
 
@@ -158,9 +158,9 @@ namespace TanglewoodLMS
             }
         }
 
-        public void ClearMarkbook()
+        public void ClearMarkbook(GridView markbook)
         {
-            markbookView.Controls.Clear();
+            markbook.Controls.Clear();
         }
 
         public string GetPercentage(string mark, string totalMark)
@@ -193,61 +193,100 @@ namespace TanglewoodLMS
             return "?%";
         }
 
+        public string GetYearMark(string term1, string term2, string term3, string term4)
+        {
+            return null;
+        }
+
         public void PopulateMarkbook()
         {
             try
             {
-                SqlConnection con = CreateConnection();
-                using (SqlCommand cmd = new SqlCommand("dbo.DisplayReport", con) { CommandType = System.Data.CommandType.StoredProcedure })
+                if (termList.SelectedValue != "5")
                 {
-                    cmd.Parameters.Add(new SqlParameter("@Term", termList.SelectedValue));
-                    cmd.Parameters.Add(new SqlParameter("@Student", studentList.SelectedValue));
-                    cmd.Parameters.Add(new SqlParameter("@Year", (DateTime.Now).ToString().Substring(0, Math.Min(4, (DateTime.Now).ToString().Length))));
-                    using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    ClearMarkbook(finalReportView);
+                    DataTable dataTable = new DataTable();
+                    dataTable.Columns.Add("Subject", typeof(string));
+                    dataTable.Columns.Add("Assessment 1", typeof(string));
+                    dataTable.Columns.Add("Assessment 2", typeof(string));
+                    dataTable.Columns.Add("Assessment 3", typeof(string));
+                    dataTable.Columns.Add("Final Percentage", typeof(string));
+                    using (SqlConnection con = CreateConnection())
+                    using (SqlCommand cmd = new SqlCommand("dbo.DisplayReport", con) { CommandType = CommandType.StoredProcedure })
                     {
-                        GridView markbookView = new GridView();
-                        if (reader.HasRows)
+                        cmd.Parameters.AddWithValue("@Term", termList.SelectedValue);
+                        cmd.Parameters.AddWithValue("@Student", studentList.SelectedValue);
+                        cmd.Parameters.AddWithValue("@Year", yearList.SelectedValue);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                GridViewRow row = new GridViewRow(0, 0, DataControlRowType.DataRow, DataControlRowState.Normal);
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    TableCell cell = new TableCell();
-                                    Label label = new Label();
-                                    switch (i)
-                                    {
-                                        case 0: errorLabel.Text = errorLabel.Text + "\n" + reader["txtSubject"].ToString(); label.ID = $"subjectLabel{i}"; label.Text = reader["txtSubject"].ToString(); cell.Controls.Add(label); break;
-                                        case 1: errorLabel.Text = errorLabel.Text + "\n" + GetPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString()); label.ID = $"mark1Label{i}"; label.Text = GetPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString()); cell.Controls.Add(label); break;
-                                        case 2: errorLabel.Text = errorLabel.Text + "\n" + GetPercentage(reader["intMark2"].ToString(), reader["intTotalMark2"].ToString()); label.ID = $"mark2Label{i}"; label.Text = GetPercentage(reader["intMark2"].ToString(), reader["intTotalMark2"].ToString()); cell.Controls.Add(label); break;
-                                        case 3: errorLabel.Text = errorLabel.Text + "\n" + GetPercentage(reader["intMark3"].ToString(), reader["intTotalMark3"].ToString()); label.ID = $"mark3Label{i}"; label.Text = GetPercentage(reader["intMark3"].ToString(), reader["intTotalMark3"].ToString()); cell.Controls.Add(label); break;
-                                        case 4: errorLabel.Text = errorLabel.Text + "\n" + GetFinalPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString(), reader["intMark2"].ToString(), reader["intTotalMark2"].ToString(), reader["intMark3"].ToString(), reader["intTotalMark3"].ToString()); label.ID = $"final{i}"; label.Text = GetFinalPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString(), reader["intMark2"].ToString(), reader["intTotalMark2"].ToString(), reader["intMark3"].ToString(), reader["intTotalMark3"].ToString()); cell.Controls.Add(label); break;
-                                    }
-                                    row.Cells.Add(cell);
-                                }
+                                DataRow row = dataTable.NewRow();
+                                row["Subject"] = reader["txtSubject"].ToString();
+                                row["Assessment 1"] = GetPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString());
+                                row["Assessment 2"] = GetPercentage(reader["intMark2"].ToString(), reader["intTotalMark2"].ToString());
+                                row["Assessment 3"] = GetPercentage(reader["intMark3"].ToString(), reader["intTotalMark3"].ToString());
+                                row["Final Percentage"] = GetFinalPercentage(
+                                    reader["intMark1"].ToString(),
+                                    reader["intTotalMark1"].ToString(),
+                                    reader["intMark2"].ToString(),
+                                    reader["intTotalMark2"].ToString(),
+                                    reader["intMark3"].ToString(),
+                                    reader["intTotalMark3"].ToString()
+                                );
+
+                                dataTable.Rows.Add(row);
                             }
                         }
                     }
+                    reportView.DataSource = dataTable;
+                    reportView.DataBind();
                 }
-                if (termList.SelectedValue != "5")
+                else
                 {
-                    TemplateField field;
-                    for (int i = 0; i < 4; i++)
+                    ClearMarkbook(reportView);
+                    DataTable dataTable = new DataTable();
+                    dataTable.Columns.Add("Subject", typeof(string));
+                    dataTable.Columns.Add("Term 1", typeof(string));
+                    dataTable.Columns.Add("Term 2", typeof(string));
+                    dataTable.Columns.Add("Term 3", typeof(string));
+                    dataTable.Columns.Add("Term 4", typeof(string));
+                    dataTable.Columns.Add("Year Mark", typeof(string));
+                    using (SqlConnection con = CreateConnection())
+                    using (SqlCommand cmd = new SqlCommand("dbo.DisplayReport", con) { CommandType = CommandType.StoredProcedure })
                     {
-                        field = markbookView.Columns[(i + 1)] as TemplateField;
-                        switch (i)
+                        cmd.Parameters.AddWithValue("@Term", termList.SelectedValue);
+                        cmd.Parameters.AddWithValue("@Student", studentList.SelectedValue);
+                        cmd.Parameters.AddWithValue("@Year", yearList.SelectedValue);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            case 0: field.HeaderText = "Assessment 1"; break;
-                            case 1: field.HeaderText = "Assessment 2"; break;
-                            case 2: field.HeaderText = "Assessment 3"; break;
-                            case 3: field.HeaderText = "Assessment 4"; break;
+                            while (reader.Read())
+                            {
+                                DataRow row = dataTable.NewRow();
+                                row["Subject"] = reader["txtSubject"].ToString();
+                                row["Assessment 1"] = GetPercentage(reader["intMark1"].ToString(), reader["intTotalMark1"].ToString());
+                                row["Assessment 2"] = GetPercentage(reader["intMark2"].ToString(), reader["intTotalMark2"].ToString());
+                                row["Assessment 3"] = GetPercentage(reader["intMark3"].ToString(), reader["intTotalMark3"].ToString());
+                                row["Final Percentage"] = GetFinalPercentage(
+                                    reader["intMark1"].ToString(),
+                                    reader["intTotalMark1"].ToString(),
+                                    reader["intMark2"].ToString(),
+                                    reader["intTotalMark2"].ToString(),
+                                    reader["intMark3"].ToString(),
+                                    reader["intTotalMark3"].ToString()
+                                );
+
+                                dataTable.Rows.Add(row);
+                            }
                         }
                     }
+                    reportView.DataSource = dataTable;
+                    reportView.DataBind();
                 }
             }
             catch (Exception ex)
             {
-                errorLabel.Text = (ex.ToString());
+                errorLabel.Text = ex.ToString();
             }
         }
 

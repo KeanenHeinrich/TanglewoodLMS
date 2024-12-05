@@ -340,10 +340,10 @@
 }
 
 #markbookView {
-    width: 90%;
     margin: auto;
     display: flex;
     align-self: center;
+    width: 90%;
 }
 
 #markbookView td {
@@ -383,6 +383,33 @@
 }
 
 /* Report Page */
+
+#reportView {
+    margin: auto;
+    display: flex;
+    align-self: center;
+    width: 68%;
+}
+
+#reportView td {
+    padding: 4px;
+    text-align: center;
+    border: 1px solid;
+    border-color: whitesmoke;
+    font-size: 22px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+#reportView th {
+    padding: 4px;
+    text-align: center;
+    border: 2px solid;
+    border-color: whitesmoke;
+    font-size: 27px;
+    color: whitesmoke;
+    font-weight: bold;
+}
 
 #Report {
     display: flex;

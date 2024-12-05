@@ -36,28 +36,23 @@
         <div id="marks">
             <asp:Label ID="markHeader" runat="server" Text="No Markbook Selected"></asp:Label>
             <div id="results">        
-                <asp:GridView ID="markbookView" runat="server" AutoGenerateColumns="false" EnableTheming="false" GridLines="None">
+                <asp:GridView ID="reportView" runat="server" AutoGenerateColumns="false" EnableTheming="false" GridLines="None">
                     <Columns>
-                        <asp:TemplateField HeaderText="Subject">
-                            <ItemTemplate>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Total1">
-                            <ItemTemplate>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Total2">
-                            <ItemTemplate>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Total3">
-                            <ItemTemplate>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Final Total">
-                            <ItemTemplate>
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                        <asp:BoundField DataField="Subject" HeaderText="Subject" />
+                        <asp:BoundField DataField="Assessment 1" HeaderText="Assessment 1" />
+                        <asp:BoundField DataField="Assessment 2" HeaderText="Assessment 2" />
+                        <asp:BoundField DataField="Assessment 3" HeaderText="Assessment 3" />
+                        <asp:BoundField DataField="Final Percentage" HeaderText="Final Total" />
+                    </Columns>
+                </asp:GridView>
+                <asp:GridView ID="finalReportView" runat="server" AutoGenerateColumns="false" EnableTheming="false" GridLines="None">
+                    <Columns>
+                        <asp:BoundField DataField="Subject" HeaderText="Subject" />
+                        <asp:BoundField DataField="Term 1" HeaderText="Term 1" />
+                        <asp:BoundField DataField="Term 2" HeaderText="Term 2" />
+                        <asp:BoundField DataField="Term 3" HeaderText="Term 3" />
+                        <asp:BoundField DataField="Term 4" HeaderText="Term 4" />
+                        <asp:BoundField DataField="Year Mark" HeaderText="Year Mark" />
                     </Columns>
                 </asp:GridView>
             </div>
