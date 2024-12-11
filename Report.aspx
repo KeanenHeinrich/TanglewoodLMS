@@ -56,6 +56,10 @@
                     </Columns>
                 </asp:GridView>
             </div>
+            <div id="comments">
+                <asp:Button ID="commentSubmit" runat="server" Text="Submit" OnClick="commentSubmit_Click" />
+                <asp:TextBox ID="commentBox" runat="server" placeholder="Staff Comments" TextMode="MultiLine"></asp:TextBox>
+            </div>
             <div id="markButtons" runat="server">
                 
                 <asp:Button ID="downloadButton" class="markButton" Text="DOWNLOAD" runat="server" OnClick="downloadButton_Click" />

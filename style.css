@@ -420,3 +420,497 @@
     top: 0;
     left: 0;
 }
+
+#finalReportView {
+    margin: auto;
+    display: flex;
+    align-self: center;
+    width: 58%;
+}
+
+#finalReportView td {
+    padding: 4px;
+    text-align: center;
+    border: 1px solid;
+    border-color: whitesmoke;
+    font-size: 22px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+#finalReportView th {
+    padding: 4px;
+    text-align: center;
+    border: 2px solid;
+    border-color: whitesmoke;
+    font-size: 27px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+#comments {
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#commentSubmit {
+    width: 15%;
+    height: 40px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 20px;
+    margin-right: 10px;
+    background-color: #838383;
+    border-style: none;
+    color: whitesmoke;
+}
+
+#commentBox {
+    width: 75%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255, 0);
+    height: auto;
+}
+
+/* All Students */
+
+#AllStudents {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+#headerAllStudents {
+    width: 100%;
+    height: 10%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+
+#header {
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    color: whitesmoke;
+    font-size: 60px;
+}
+
+#filterAllStudents {
+    height: 10%;
+    width: 76%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+#listAllStudents {
+    height: 70%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(150,163,167,0.4);
+    padding: 3%;
+    overflow-y: scroll;
+}
+
+#navbuttonsAllStudents {
+    height: 10%;
+    width: 100%;
+}
+
+#searchStudents {
+    width: 30%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    padding: 10px;
+    background-color: whitesmoke;
+    height: auto;
+    margin-right: 39%;
+}
+
+#gradeStudent {
+    border-style: none;
+    width: 13%;
+    height: 80%;
+    background-color: #868686;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 25px;
+    appearance: none;
+    margin-right: 3%;
+}
+
+#classStudent {
+    border-style: none;
+    width: 13%;
+    height: 80%;
+    background-color: #868686;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 25px;
+    appearance: none;
+}
+
+#postAllStudents {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+    background-color: whitesmoke;
+    color: #868686;
+    border: solid 1px;
+    border-radius: 10px;
+    justify-content: space-between;
+    font-size: 25px;
+}
+
+#studentName {
+    display: flex;
+    margin-right: 70%;
+    width: 20%;
+}
+
+.expandButton {
+    width: 20px;
+    height: 20px;
+    align-self: center;
+}
+
+#detailBackground {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 1%;
+}
+
+#displayTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#displayTable td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#displayTable input[type="text"] {
+    width: 90%;
+    padding: 8px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.popup {
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 30%;
+    height: 30%;
+    border: 2px solid darkgrey;
+    border-radius: 10px;
+}
+
+#popup2 {
+    height: 80%;
+}
+
+.popupHeading {
+    font-size: 30px;
+    margin-top: 3%;
+    height: 20%;
+}
+
+#popupHeading2{
+    height: 5%;
+}
+
+#popupText {
+    font-size: 20px;
+    margin-bottom: 10%;
+    height: 20%
+}
+
+#popupButtons {
+    justify-content: space-between;
+    text-align: center;
+    width: 90%;
+    height: 40%;
+}
+
+#confirm {
+    width: 180px;
+    height: 50px;
+    background-color: #464646;
+    border-style: none;
+    color: ghostwhite;
+    font-size: 22px;
+}
+
+#cancel {
+    width: 180px;
+    height: 50px;
+    background-color: #ABABAB;
+    border-style: none;
+    color: ghostwhite;
+    font-size: 22px;
+}
+
+#confirm:hover {
+    background-color: darkred;
+}
+
+#cancel:hover {
+    background-color: #989898;
+}
+
+.deleteButton {
+    margin: 1%;
+    width: 10%;
+    height: 70%;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    margin-right: 10px;
+    background-color: white;
+    color: darkred;
+}
+
+.deleteButton:hover {
+    background-color: darkred;
+    color: white;
+}
+
+.editButton {
+    margin: 1%;
+    width: 10%;
+    height: 70%;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 10px;
+    background-color: white;
+    color: #868686;
+}
+
+.editButton:hover {
+    background-color: #646464;
+    color: white;
+}
+
+#Classes {
+    display: flex;
+    height: 12%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#navbuttonsAllStudents {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#addStudent {
+    width: 5%;
+    height: 40px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 20px;
+    margin-right: 10px;
+    background-color: #838383;
+    border-style: none;
+    color: whitesmoke;
+    position: absolute;
+    right: 10.8%;
+    bottom: 15px;
+}
+
+#addStudent:hover {
+    background-color: #616161;
+}
+
+#studentClasses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.classChange {
+    margin: 1%;
+    width: 10%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 10px;
+    background-color: white;
+    color: #868686;
+}
+
+.classChange:hover {
+    background-color: #646464;
+    color: white;
+}
+
+.addRemove {
+    background-color: #868686;
+    color: whitesmoke;
+    width: 30%;
+    height: 100%;
+    border-style: none;
+    margin-left: 20px;
+}
+.addRemove:hover {
+    background-color: #424242;
+}
+
+#buttonHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    margin-top: 3%;
+}
+
+#cancelChanges {
+    height: 50%;
+    width: 40%;
+    background-color: #ABABAB;
+    border-style: none;
+    color: ghostwhite;
+    font-size: 20px;
+    padding: 5px;
+}
+
+#cancelChanges:hover {
+    background-color: #868686
+}
+
+#emptyDiv {
+    width: 31%;
+    padding: 3px;
+    margin-right: 3%;
+    justify-content: center;
+    align-items: center;
+}
+
+#showNewLabel {
+    font-size: 25px;
+    width: 25%;
+}
+
+/* ADMIN PAGE */
+#AdminPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+#filterAllStaff {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchStaff {
+    width: 30%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    padding: 10px;
+    background-color: whitesmoke;
+    height: auto;
+}
+
+#postAllStaff {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+    background-color: whitesmoke;
+    color: #868686;
+    border: solid 1px;
+    border-radius: 10px;
+    justify-content: space-between;
+    font-size: 25px;
+}
+
+.deleteButton2 {
+    margin: 1%;
+    width: 10%;
+    height: 200%;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    margin-right: 10px;
+    background-color: white;
+    color: darkred;
+}
+
+    .deleteButton2:hover {
+        background-color: darkred;
+        color: white;
+    }
+
+.editButton2 {
+    margin: 1%;
+    width: 10%;
+    height: 200%;
+    border: solid 1px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 10px;
+    background-color: white;
+    color: #868686;
+}
+
+.editButton2:hover {
+    background-color: #646464;
+    color: white;
+}
+
+#Classes2 {
+    display: flex;
+    margin-top: 5%;
+    height: 10%;
+    align-items: center;
+    justify-content: space-between;
+}

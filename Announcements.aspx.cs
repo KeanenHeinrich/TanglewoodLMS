@@ -116,7 +116,11 @@ namespace TanglewoodLMS
 
         protected void nameButton_Click(object sender, EventArgs e)
         {
-            Response.Redirect("AdminPage.aspx");
+            loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
+            if (currentUser.Admin == true)
+            {
+                Response.Redirect("AdminPage.aspx");
+            }
         }
 
         protected void allStudents_Click(object sender, EventArgs e)

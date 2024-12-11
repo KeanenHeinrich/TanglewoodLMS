@@ -105,6 +105,24 @@ namespace TanglewoodLMS
         protected global::System.Web.UI.WebControls.GridView finalReportView;
 
         /// <summary>
+        /// commentSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button commentSubmit;
+
+        /// <summary>
+        /// commentBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox commentBox;
+
+        /// <summary>
         /// markButtons control.
         /// </summary>
         /// <remarks>
