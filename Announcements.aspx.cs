@@ -111,7 +111,7 @@ namespace TanglewoodLMS
                 Response.Cookies.Add(rememberMeCookie);
             }
             Session.Remove("loggedInUser");
-            Response.Redirect("Test.aspx");
+            Response.Redirect("Login.aspx");
         }
 
         protected void nameButton_Click(object sender, EventArgs e)

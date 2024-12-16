@@ -1,6 +1,7 @@
 ﻿using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,16 +22,6 @@ namespace TanglewoodLMS
                 PopulateDropDown("dbo.GradeDropdown", gradeStudent, "txtGrade");
                 PopulateDropDown("dbo.ClassDropdown", classStudent, "txtClass");
                 GetStudents();
-            }
-            SqlConnection con = CreateConnection();
-            using (SqlCommand cmd = new SqlCommand("FetchStudentClasses", con) { CommandType = System.Data.CommandType.StoredProcedure })
-            {
-                cmd.Parameters.Add(new SqlParameter("@IDX", DBNull.Value));
-                using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                {
-                    classAssignRepeater.DataSource = reader;
-                    classAssignRepeater.DataBind();
-                }
             }
         }
 
@@ -85,7 +76,8 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
-                
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
@@ -142,7 +134,8 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
-
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
@@ -157,6 +150,8 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
                 return null;
             }
         }
@@ -211,8 +206,9 @@ namespace TanglewoodLMS
                     addressBox.Text = reader["txtAddress"].ToString();
                     TextBox genderBox = record.FindControl("genderBox") as TextBox;
                     genderBox.Text = reader["txtGender"].ToString();
-                    TextBox dobBox = record.FindControl("dobBox") as TextBox;
-                    dobBox.Text = reader["datDOB"].ToString();
+                    Calendar dobCal = record.FindControl("dobCal") as Calendar;
+                    dobCal.SelectedDate = Convert.ToDateTime(reader["datDOB"]);
+                    dobCal.VisibleDate = Convert.ToDateTime(reader["datDOB"]);
                     TextBox emailBox = record.FindControl("emailBox") as TextBox;
                     emailBox.Text = reader["txtParentEmail"].ToString();
                     TextBox phoneBox = record.FindControl("phoneBox") as TextBox;
@@ -240,8 +236,8 @@ namespace TanglewoodLMS
             cmd.Parameters.Add(new SqlParameter("@Address", SqlDbType.NVarChar, 50) { Value = addressBox.Text });
             TextBox genderBox = record.FindControl("genderBox") as TextBox;
             cmd.Parameters.Add(new SqlParameter("@Gender", SqlDbType.NVarChar, 50) { Value = genderBox.Text });
-            TextBox dobBox = record.FindControl("dobBox") as TextBox;
-            cmd.Parameters.Add(new SqlParameter("@DOB", SqlDbType.DateTime) { Value = dobBox.Text });
+            Calendar dobCal = record.FindControl("dobCal") as Calendar;
+            cmd.Parameters.Add(new SqlParameter("@DOB", SqlDbType.DateTime) { Value = dobCal.SelectedDate });
             TextBox emailBox = record.FindControl("emailBox") as TextBox;
             cmd.Parameters.Add(new SqlParameter("@ParentEmail", SqlDbType.NVarChar, 50) { Value = emailBox.Text });
             TextBox phoneBox = record.FindControl("phoneBox") as TextBox;
@@ -316,9 +312,6 @@ namespace TanglewoodLMS
                         detailDisplay.Style["display"] = "none";
                     }
                 }
-                else
-                {
-                }
             }
             else if (e.CommandName == "Delete")
             {
@@ -350,13 +343,13 @@ namespace TanglewoodLMS
                         {
                             foreach (RepeaterItem repeaterItem in classAssignRepeater.Items)
                             {
-                                Label item = repeaterItem.FindControl("itemClass") as Label;
-                                if ( item.Text == reader["txtClass"].ToString())
+                                HiddenField item = repeaterItem.FindControl("classHidden") as HiddenField;
+                                if ( item.Value == reader["txtClass"].ToString() )
                                 {
                                     Button button = repeaterItem.FindControl("addClass") as Button;
-                                    button.Visible = true;
+                                    button.Visible = false;
                                     Button otherButton = repeaterItem.FindControl("removeClass") as Button;
-                                    otherButton.Visible = false;
+                                    otherButton.Visible = true;
                                 }
                             }
                         }
@@ -462,6 +455,213 @@ namespace TanglewoodLMS
         protected void exitButton_Click(object sender, EventArgs e)
         {
             Response.Redirect("Announcements.aspx");
+        }
+
+        protected void errorCont_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                errorDiv.Style["display"] = "none";
+            }
+            catch
+            {
+            }
+        }
+
+        protected void nameBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Name field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void surnameBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Surname field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void govBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 13)
+                {
+                    errorLabel.Text = "Surname field entry too long.\nPlease ensure a maximum length of 13 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void addressBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 100)
+                {
+                    errorLabel.Text = "Address field entry too long.\nPlease ensure a maximum length of 100 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void genderBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Gender field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void emailBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Email field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void phoneBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 10)
+                {
+                    errorLabel.Text = "Phone Number field entry too long.\nPlease ensure a maximum length of 10 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void diffBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 200)
+                {
+                    errorLabel.Text = "Learning Difficulties field entry too long.\nPlease ensure a maximum length of 200 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void noteBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 200)
+                {
+                    errorLabel.Text = "Additional Notes field entry too long.\nPlease ensure a maximum length of 200 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void classAssignRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "addClass")
+            {
+                SqlConnection con = CreateConnection();
+                SqlCommand cmd = new SqlCommand("dbo.addClass", con) { CommandType = System.Data.CommandType.StoredProcedure };
+                cmd.Parameters.Add(new SqlParameter("@IDX", idxStore2.Value));
+                cmd.Parameters.Add(new SqlParameter("@Class", e.CommandArgument.ToString()));
+                loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
+                cmd.Parameters.Add(new SqlParameter("@UpdateWho", currentUser.UserId));
+                cmd.Parameters.Add(new SqlParameter("@Year", (DateTime.Now).ToString().Substring(0, Math.Min(10, (DateTime.Now).ToString().Length))));
+                cmd.ExecuteNonQuery();
+            }
+            else if(e.CommandName == "removeClass")
+            {
+                SqlConnection con = CreateConnection();
+                SqlCommand cmd = new SqlCommand("dbo.removeClass", con) { CommandType = System.Data.CommandType.StoredProcedure };
+                cmd.Parameters.Add(new SqlParameter("@IDX", idxStore2.Value));
+                cmd.Parameters.Add(new SqlParameter("@Class", e.CommandArgument.ToString()));
+                loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
+                cmd.Parameters.Add(new SqlParameter("@UpdateWho", currentUser.UserId));
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

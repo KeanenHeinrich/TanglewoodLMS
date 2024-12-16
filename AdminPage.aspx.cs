@@ -19,25 +19,25 @@ namespace TanglewoodLMS
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            try
             {
-                GetStaff();
+                if (!IsPostBack)
+                {
+                    GetStaff();
+                }
+            }
+            catch
+            {
+
             }
         }
 
         public SqlConnection CreateConnection()
         {
             string constr = ConfigurationManager.ConnectionStrings["TanglewoodConnectionString"].ConnectionString;
-            try
-            {
-                SqlConnection con = new SqlConnection(constr);
-                con.Open();
-                return con;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            SqlConnection con = new SqlConnection(constr);
+            con.Open();
+            return con;
         }
 
         public void GetStaff()
@@ -102,7 +102,28 @@ namespace TanglewoodLMS
             CheckBox admin = record.FindControl("adminCheck") as CheckBox;
             cmd.Parameters.Add(new SqlParameter("@Admin", SqlDbType.Bit) { Value = admin.Checked });
             TextBox password = record.FindControl("passwordText") as TextBox;
-
+            if(nameBox.Text != "")
+            {
+                if (surnameBox.Text != "")
+                {
+                    cmd.Parameters.Add(new SqlParameter("@Initials", SqlDbType.NVarChar, 2) { Value = nameBox.Text.Substring(0, 1) + surnameBox.Text.Substring(0, 1) });
+                }
+                else
+                {
+                    cmd.Parameters.Add(new SqlParameter("@Initials", SqlDbType.NVarChar, 2) { Value = nameBox.Text.Substring(0, 1)});
+                }
+            }
+            else
+            {
+                if (surnameBox.Text != "")
+                {
+                    cmd.Parameters.Add(new SqlParameter("@Initials", SqlDbType.NVarChar, 2) { Value = surnameBox.Text.Substring(0, 1) });
+                }
+                else
+                {
+                    cmd.Parameters.Add(new SqlParameter("@Initials", SqlDbType.NVarChar, 2) { Value = DBNull.Value });
+                }
+            }
             if (password.Text != "")
             {
                 using (SqlConnection con2 = CreateConnection())
@@ -117,7 +138,11 @@ namespace TanglewoodLMS
                             string saltedPassword = (string)saltcmd.Parameters["@OutputPassword"].Value;
                             cmd.Parameters.Add(new SqlParameter("@Password", hashPassword(saltedPassword)));
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            errorDiv.Style["display"] = "flex";
+                            errorLabel.Text = ex.ToString();
+                        }
                     }
                 }
             }
@@ -141,7 +166,15 @@ namespace TanglewoodLMS
 
         protected void searchStudents_TextChanged(object sender, EventArgs e)
         {
-            GetStaff();
+            try
+            {
+                GetStaff();
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
         }
 
         public void PopulateSubjects(HtmlGenericControl record)
@@ -160,75 +193,163 @@ namespace TanglewoodLMS
             }
         }
 
+        public bool checkDuplicate(HtmlGenericControl record, string text)
+        {
+            SqlConnection con = CreateConnection();
+            SqlCommand cmd = new SqlCommand("dbo.CheckDuplicate", con) { CommandType = System.Data.CommandType.StoredProcedure };
+            cmd.Parameters.Add(new SqlParameter("@original", SqlDbType.NVarChar, 50) { Value = text });
+            cmd.Parameters.Add(new SqlParameter("@output", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+            cmd.ExecuteNonQuery();
+            bool output = (bool)cmd.Parameters["@output"].Value;
+            return output;
+        }
+
         protected void studentsRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Select")
+            try
             {
-                RepeaterItem item = e.Item;
-                var detailDisplay = item.FindControl("detailDisplay") as HtmlGenericControl;
-                string displayValue = detailDisplay.Style["display"];
-                foreach (RepeaterItem repeaterItem in studentsRepeater.Items)
+                if (e.CommandName == "Select")
                 {
-                    var display = repeaterItem.FindControl("detailDisplay") as HtmlGenericControl;
-                    display.Style["display"] = "none";
-                }
-                if (detailDisplay != null)
-                {
-                    if (displayValue == "none")
+                    RepeaterItem item = e.Item;
+                    var detailDisplay = item.FindControl("detailDisplay") as HtmlGenericControl;
+                    string displayValue = detailDisplay.Style["display"];
+                    foreach (RepeaterItem repeaterItem in studentsRepeater.Items)
                     {
-                        detailDisplay.Style["display"] = "flex";
-                        PopulateSubjects(detailDisplay);
-                        GetStaffDetails(detailDisplay, e.CommandArgument.ToString());
+                        var display = repeaterItem.FindControl("detailDisplay") as HtmlGenericControl;
+                        display.Style["display"] = "none";
+                    }
+                    if (detailDisplay != null)
+                    {
+                        if (displayValue == "none")
+                        {
+                            detailDisplay.Style["display"] = "flex";
+                            PopulateSubjects(detailDisplay);
+                            GetStaffDetails(detailDisplay, e.CommandArgument.ToString());
+                            checkEmpty(detailDisplay, e.CommandArgument.ToString());
+                        }
+                        else
+                        {
+                            detailDisplay.Style["display"] = "none";
+                        }
                     }
                     else
                     {
-                        detailDisplay.Style["display"] = "none";
                     }
                 }
-                else
+                else if (e.CommandName == "Delete")
                 {
+                    validationCheck.Style["display"] = "flex";
+                    idxStore.Value = e.CommandArgument.ToString();
+                    popupText.Text = "Are you sure you wish to delete User ID: " + e.CommandArgument.ToString();
+                }
+                else if (e.CommandName == "Edit")
+                {
+                    RepeaterItem item = e.Item;
+                    var detailDisplay = item.FindControl("detailDisplay") as HtmlGenericControl;
+                    TextBox textbox = (TextBox)detailDisplay.FindControl("usernameText");
+                    if (textbox.Text != null)
+                    {
+                        if (!checkDuplicate(detailDisplay, textbox.Text))
+                        {
+                            EditStaffDetails(detailDisplay, e.CommandArgument.ToString());
+                            GetStaff();
+                        }
+                        else
+                        {
+                            errorDiv.Style["display"] = "flex";
+                            errorLabel.Text = "A Staff record with the input Username already exists.\nPlease choose a new username.";
+                        }
+                    }
+                    else
+                    {
+                        errorDiv.Style["display"] = "flex";
+                        errorLabel.Text = "No value in username.";
+                    }
                 }
             }
-            else if (e.CommandName == "Delete")
+            catch(Exception ex)
             {
-                validationCheck.Style["display"] = "flex";
-                idxStore.Value = e.CommandArgument.ToString();
-                popupText.Text = "Are you sure you wish to delete User ID: " + e.CommandArgument.ToString();
-            }
-            else if (e.CommandName == "Edit")
-            {
-                RepeaterItem item = e.Item;
-                var detailDisplay = item.FindControl("detailDisplay") as HtmlGenericControl;
-                EditStaffDetails(detailDisplay, e.CommandArgument.ToString());
-                GetStaff();
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
         protected void cancel_Click(object sender, EventArgs e)
         {
-            idxStore.Value = "";
-            validationCheck.Style["display"] = "none";
+            try
+            {
+                idxStore.Value = "";
+                validationCheck.Style["display"] = "none";
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
         }
 
         protected void confirm_Click(object sender, EventArgs e)
         {
-            SqlConnection con = CreateConnection();
-            SqlCommand cmd = new SqlCommand("dbo.DisableUser", con) { CommandType = System.Data.CommandType.StoredProcedure };
-            cmd.Parameters.Add(new SqlParameter("@UserIDX", idxStore.Value));
-            cmd.ExecuteNonQuery();
-            idxStore.Value = "";
-            validationCheck.Style["display"] = "none";
-            GetStaff();
+            try
+            {
+                SqlConnection con = CreateConnection();
+                SqlCommand cmd = new SqlCommand("dbo.DisableUser", con) { CommandType = System.Data.CommandType.StoredProcedure };
+                cmd.Parameters.Add(new SqlParameter("@UserIDX", idxStore.Value));
+                cmd.ExecuteNonQuery();
+                idxStore.Value = "";
+                validationCheck.Style["display"] = "none";
+                GetStaff();
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
         }
 
         protected void addStudent_Click(object sender, EventArgs e)
         {
+            try
+            {
+                SqlConnection con = CreateConnection();
+                SqlCommand cmd = new SqlCommand("dbo.CreateUser", con) { CommandType = System.Data.CommandType.StoredProcedure };
+                loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
+                cmd.Parameters.Add(new SqlParameter("@UpdateWho", currentUser.UserId));
+                SqlParameter createdParam = cmd.Parameters.Add(new SqlParameter("@Created", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+                cmd.ExecuteNonQuery();
+                bool created = Convert.ToBoolean(createdParam.Value);
+                if (created == false)
+                {
+                    errorDiv.Style["display"] = "flex";
+                    errorLabel.Text = "An empty staff record already exists.\nAssign it a username and password before creating a new one";
+                }
+                GetStaff();
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        public void checkEmpty(HtmlGenericControl record, string IDX)
+        {
             SqlConnection con = CreateConnection();
-            SqlCommand cmd = new SqlCommand("dbo.CreateUser", con) { CommandType = System.Data.CommandType.StoredProcedure };
-            loggedInUser currentUser = (loggedInUser)Session["loggedInUser"];
-            cmd.Parameters.Add(new SqlParameter("@UpdateWho", currentUser.UserId));
+            SqlCommand cmd = new SqlCommand("dbo.EmptyCheck", con) { CommandType = System.Data.CommandType.StoredProcedure };
+            cmd.Parameters.Add(new SqlParameter("@IDX", IDX));
+            SqlParameter createdParam = cmd.Parameters.Add(new SqlParameter("@output", SqlDbType.Bit) { Direction = ParameterDirection.Output });
             cmd.ExecuteNonQuery();
-            GetStaff();
+            bool empty = Convert.ToBoolean(createdParam.Value);
+            if (empty)
+            {
+                Button deleteButton = (Button)record.FindControl("deleteButton");
+                deleteButton.Visible = false;
+            }
+            else
+            {
+                Button deleteButton = (Button)record.FindControl("deleteButton");
+                deleteButton.Visible = true;
+            }
         }
 
         public string hashPassword(string Password)
@@ -243,6 +364,93 @@ namespace TanglewoodLMS
         protected void exitButton_Click(object sender, EventArgs e)
         {
             Response.Redirect("Announcements.aspx");
+        }
+
+        protected void errorCont_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                errorDiv.Style["display"] = "none";
+            }
+            catch
+            {
+            }
+        }
+
+        protected void nameBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Name field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void surnameBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Surname field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void usernameText_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Username field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch(Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
+        }
+
+        protected void passwordText_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                TextBox textbox = (TextBox)sender;
+                if (textbox.Text.Length > 50)
+                {
+                    errorLabel.Text = "Password field entry too long.\nPlease ensure a maximum length of 50 characters.";
+                    errorDiv.Style["display"] = "none";
+                    textbox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
+            }
         }
     }
 }

@@ -26,7 +26,7 @@
                                     <asp:Label ID="userName" runat="server"><%# Eval("txtName") %></asp:Label>
                                     <asp:Label ID="userSurname" runat="server"><%# Eval("txtSurname") %></asp:Label>
                                 </div>
-                                <asp:Label ID="messageAnn" runat="server"><%# Eval("txtAnnouncement") %></asp:Label>
+                                <asp:Label ID="messageAnn" Font-Size="2em" runat="server"><%# Eval("txtAnnouncement") %></asp:Label>
                                 <br />
                                 <asp:Label ID="timeAnn" runat="server"><%# Eval("datCreationDate") %></asp:Label>
                             </div>
@@ -49,6 +49,15 @@
             <asp:Button ID="reports" class="navButton" runat="server" Text="REPORTS" OnClick="reports_Click" />
             <asp:Button ID="logOut" class="navMinor" runat="server" Text="EXIT" BorderStyle="None" OnClick="logOut_Click" />
         </div>
+        <script>
+            function getVpWidth() {
+                const viewportWidth = window.innerWidth;
+                viewportWidth = viewportWidth / 1920;
+                document.documentElement.style.setProperty('--adjust', `${viewportWidth}px`);
+            }
+            geyVpWidth();
+            window.addEventListener('resize', setViewportWidthVariable);
+        </script>
     </form>
 </body>
 </html>

@@ -1,4 +1,8 @@
-﻿body {
+﻿:root{
+    font-size: 10px;
+}
+
+body {
     display: flex;
     background-image: url('Resources/Background Image.png');
     background-size: cover;
@@ -6,6 +10,7 @@
     width: 99vw;
     justify-content: center;
     align-items: center;
+    font-size: 1rem;
 }
 
 /* LOGIN PAGE */
@@ -16,14 +21,14 @@
     justify-content: center;
     align-items: center;
     background-color: white;
-    width: 500px;
-    height: 650px;
+    width: 26.3vw;
+    height: 66.8vh;
     border: 2px solid darkgrey;
 }
 
 .inputField {
-    height: 40px;
-    width: 400px;
+    height: 4.1vh;
+    width: 21vw;
     display: block;
 }
 
@@ -31,35 +36,35 @@
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    margin-bottom: 120px;
+    margin-bottom: 12.3vh;
     border: 2px solid darkgrey;
 }
 
 #usernameInput {
-    margin-bottom: 30px;
-    font-size: 16px;
+    margin-bottom: 3.1vh;
+    font-size: 1.6rem;
 }
 
 #passwordInput {
-    margin-bottom: 15px;
-    font-size: 16px;
+    margin-bottom: 1.54vh;
+    font-size: 1.6rem;
 }
 
 #rememberMeContainer {
-    transform: translateX(-135px);
+    transform: translateX(-7.1vw);
     flex-direction: row;
-    margin-bottom: 50px;
-    font-size: 20px;
+    margin-bottom: 5.1vh;
+    font-size: 2.0rem;
     color: #686868;
 }
 
 .submitButton {
-    width: 180px;
-    height: 50px;
+    width: 9.5vw;
+    height: 5.1vh;
     background-color: #686868;
     border-style: none;
     color: ghostwhite;
-    font-size: 22px;
+    font-size: 2.2rem;
 }
 
 .submitButton:hover {
@@ -99,14 +104,14 @@
 }
 
 #titleCard {
-    font-size: 60px;
+    font-size: 6.0rem;
 }
 
 #submitAnnouncement {
     bottom: 0;
     width: 55%;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -117,10 +122,10 @@
 
 #inputAnnouncement {
     width: 75%;
-    height: 30px;
+    height: 3.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     padding: 10px;
     background-color: rgb(255, 255, 255, 0);
     height: auto;
@@ -128,11 +133,11 @@
 
 #sendAnnouncement {
     width: 15%;
-    height: 40px;
+    height: 4.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 20px;
-    margin-right: 10px;
+    font-size: 2.0rem;
+    margin-right: 0.5vw;
     background-color: #838383;
     border-style: none;
     color: whitesmoke;
@@ -161,7 +166,7 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    padding: 15px;
+    padding: 3.1vh;
     background-color: whitesmoke;
     color: #868686;
     border: solid 1px;
@@ -169,9 +174,9 @@
 }
 
 #fullName {
-    font-size: 20px;
+    font-size: 2.0rem;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 0.5vh;
 }
 
 #navigation {
@@ -184,10 +189,10 @@
 .navButton {
     background-color: rgb(150,163,167,0.7);
     border-style: none;
-    width: 500px;
-    height: 100px;
+    width: 26.3vw;
+    height: 10.3vh;
     color: whitesmoke;
-    font-size: 30px;
+    font-size: 3.0rem;
     margin: 50px;
 }
 
@@ -198,27 +203,27 @@
 .navMinor {
     background-color: rgb(255, 255, 255, 0);
     position: absolute;
-    font-size: 20px;
+    font-size: 2.0rem;
     color: blue;
     text-decoration: underline;
     border-style: none;
 }
 
 #logOut {
-    right: 15px;
-    bottom: 15px;
+    right: 0.79vw;
+    bottom: 1.5vh;
 }
 
 #welcome {
-    font-size: 40px;
+    font-size: 4.0rem;
     color: whitesmoke;
 }
 
 #nameButton {
     border-style: none;
-    height: 50px;
+    height: 5.1vh;
     width: auto;
-    font-size: 40px;
+    font-size: 4.0rem;
     color: whitesmoke;
     font-family: 'Times New Roman', Times, serif;
     background-color: rgb(255, 255, 255, 0);
@@ -236,10 +241,10 @@
     height: 60px;
     border: 1px solid;
     border-radius: 100px;
-    font-size: 25px;
+    font-size: 2.5rem;
     justify-content: center;
     align-items: center;
-    margin-right: 30px;
+    margin-right: 1.6vw;
 }
 
 .post {
@@ -281,7 +286,7 @@
 }
 
 #guide {
-    font-size: 30px;
+    font-size: 3.0rem;
     text-decoration: underline;
     height: 15%;
     width: 100%;
@@ -299,37 +304,37 @@
     background-color: #868686;
     color: whitesmoke;
     text-align: center;
-    font-size: 25px;
+    font-size: 2.5rem;
     appearance: none;
 }
 
 #exitButton {
-    left: 15px;
-    bottom: 15px;
+    left: 0.79vw;
+    bottom: 1.5vh;
 }
 
 #markButtons{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 80px;
+    gap: 8.2vh;
     height: 12%
 }
 
 .markButton {
     align-items: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    height: 50px;
+    padding-left: 2.1vw;
+    padding-right: 2.1vw;
+    height: 5.1vh;
     background-color: #868686;
     color: whitesmoke;
-    font-size: 20px;
+    font-size: 2.0rem;
     border-style: none;
-    margin-top: 20px;
+    margin-top: 2vh;
 }
 
 #markHeader {
-    font-size: 40px;
+    font-size: 4.0rem;
     text-decoration: underline;
     height: 12%;
     width: 100%;
@@ -351,26 +356,26 @@
     text-align: center;
     border: 1px solid;
     border-color: whitesmoke;
-    font-size: 22px;
+    font-size: 2.2rem;
     color: whitesmoke;
     font-weight: bold;
 }
 
-#markbookView th {
-    padding: 4px;
-    text-align: center;
-    border: 2px solid;
-    border-color: whitesmoke;
-    font-size: 27px;
-    color: whitesmoke;
-    font-weight: bold;
-}
+    #markbookView th {
+        padding: 4px;
+        text-align: center;
+        border: 2px solid;
+        border-color: whitesmoke;
+        font-size: 2.7rem;
+        color: whitesmoke;
+        font-weight: bold;
+    }
 
 .tableEdit {
     background-color: rgb(255, 255, 255, 0);
     border-style: none;
     text-align: center;
-    font-size: 22px;
+    font-size: 2.2rem;
     width: 50%;
     color: whitesmoke;
     font-weight: bold;
@@ -396,20 +401,20 @@
     text-align: center;
     border: 1px solid;
     border-color: whitesmoke;
-    font-size: 22px;
+    font-size: 2.2rem;
     color: whitesmoke;
     font-weight: bold;
 }
 
-#reportView th {
-    padding: 4px;
-    text-align: center;
-    border: 2px solid;
-    border-color: whitesmoke;
-    font-size: 27px;
-    color: whitesmoke;
-    font-weight: bold;
-}
+    #reportView th {
+        padding: 4px;
+        text-align: center;
+        border: 2px solid;
+        border-color: whitesmoke;
+        font-size: 2.7rem;
+        color: whitesmoke;
+        font-weight: bold;
+    }
 
 #Report {
     display: flex;
@@ -428,30 +433,30 @@
     width: 58%;
 }
 
-#finalReportView td {
-    padding: 4px;
-    text-align: center;
-    border: 1px solid;
-    border-color: whitesmoke;
-    font-size: 22px;
-    color: whitesmoke;
-    font-weight: bold;
-}
+    #finalReportView td {
+        padding: 4px;
+        text-align: center;
+        border: 1px solid;
+        border-color: whitesmoke;
+        font-size: 2.2rem;
+        color: whitesmoke;
+        font-weight: bold;
+    }
 
-#finalReportView th {
-    padding: 4px;
-    text-align: center;
-    border: 2px solid;
-    border-color: whitesmoke;
-    font-size: 27px;
-    color: whitesmoke;
-    font-weight: bold;
-}
+    #finalReportView th {
+        padding: 4px;
+        text-align: center;
+        border: 2px solid;
+        border-color: whitesmoke;
+        font-size: 2.7rem;
+        color: whitesmoke;
+        font-weight: bold;
+    }
 
 #comments {
     width: 100%;
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -459,11 +464,11 @@
 
 #commentSubmit {
     width: 15%;
-    height: 40px;
+    height: 4.1vh;
     border: solid 1px;
     border-radius: 25px;
     font-size: 20px;
-    margin-right: 10px;
+    margin-right: 0.5vw;
     background-color: #838383;
     border-style: none;
     color: whitesmoke;
@@ -471,10 +476,10 @@
 
 #commentBox {
     width: 75%;
-    height: 30px;
+    height: 3.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     padding: 10px;
     background-color: rgb(255, 255, 255, 0);
     height: auto;
@@ -507,7 +512,7 @@
     width: 100%;
     text-align: center;
     color: whitesmoke;
-    font-size: 60px;
+    font-size: 6.0rem;
 }
 
 #filterAllStudents {
@@ -538,10 +543,10 @@
 
 #searchStudents {
     width: 30%;
-    height: 30px;
+    height: 3.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     padding: 10px;
     background-color: whitesmoke;
     height: auto;
@@ -555,7 +560,7 @@
     background-color: #868686;
     color: whitesmoke;
     text-align: center;
-    font-size: 25px;
+    font-size: 2.5rem;
     appearance: none;
     margin-right: 3%;
 }
@@ -567,7 +572,7 @@
     background-color: #868686;
     color: whitesmoke;
     text-align: center;
-    font-size: 25px;
+    font-size: 2.5rem;
     appearance: none;
 }
 
@@ -581,7 +586,7 @@
     border: solid 1px;
     border-radius: 10px;
     justify-content: space-between;
-    font-size: 25px;
+    font-size: 2.5rem;
 }
 
 #studentName {
@@ -639,7 +644,7 @@
 }
 
 .popupHeading {
-    font-size: 30px;
+    font-size: 3.0rem;
     margin-top: 3%;
     height: 20%;
 }
@@ -649,7 +654,7 @@
 }
 
 #popupText {
-    font-size: 20px;
+    font-size: 2.0rem;
     margin-bottom: 10%;
     height: 20%
 }
@@ -662,21 +667,21 @@
 }
 
 #confirm {
-    width: 180px;
-    height: 50px;
+    width: 9.5vw;
+    height: 5.1vh;
     background-color: #464646;
     border-style: none;
     color: ghostwhite;
-    font-size: 22px;
+    font-size: 2.2rem;
 }
 
 #cancel {
-    width: 180px;
-    height: 50px;
+    width: 9.5vw;
+    height: 5.1vh;
     background-color: #ABABAB;
     border-style: none;
     color: ghostwhite;
-    font-size: 22px;
+    font-size: 2.2rem;
 }
 
 #confirm:hover {
@@ -693,8 +698,8 @@
     height: 70%;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
-    margin-right: 10px;
+    font-size: 1.5rem;
+    margin-right: 0.5vw;
     background-color: white;
     color: darkred;
 }
@@ -710,9 +715,9 @@
     height: 70%;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 0.5vw;
     background-color: white;
     color: #868686;
 }
@@ -737,17 +742,17 @@
 
 #addStudent {
     width: 5%;
-    height: 40px;
+    height: 4.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 20px;
-    margin-right: 10px;
+    font-size: 2.0rem;
+    margin-right: 0.5vw;
     background-color: #838383;
     border-style: none;
     color: whitesmoke;
     position: absolute;
     right: 10.8%;
-    bottom: 15px;
+    bottom: 1.5vh;
 }
 
 #addStudent:hover {
@@ -766,9 +771,9 @@
     height: 30px;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 0.5vw;
     background-color: white;
     color: #868686;
 }
@@ -784,7 +789,7 @@
     width: 30%;
     height: 100%;
     border-style: none;
-    margin-left: 20px;
+    margin-left: 1vw;
 }
 .addRemove:hover {
     background-color: #424242;
@@ -795,7 +800,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 10%;
+    height: 1vh;
     width: 100%;
     margin-top: 3%;
 }
@@ -806,7 +811,7 @@
     background-color: #ABABAB;
     border-style: none;
     color: ghostwhite;
-    font-size: 20px;
+    font-size: 2.0rem;
     padding: 5px;
 }
 
@@ -823,7 +828,7 @@
 }
 
 #showNewLabel {
-    font-size: 25px;
+    font-size: 2.5rem;
     width: 25%;
 }
 
@@ -850,10 +855,10 @@
 
 #searchStaff {
     width: 30%;
-    height: 30px;
+    height: 3.1vh;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     padding: 10px;
     background-color: whitesmoke;
     height: auto;
@@ -869,7 +874,7 @@
     border: solid 1px;
     border-radius: 10px;
     justify-content: space-between;
-    font-size: 25px;
+    font-size: 2.5rem;
 }
 
 .deleteButton2 {
@@ -878,16 +883,16 @@
     height: 200%;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
-    margin-right: 10px;
+    font-size: 1.5rem;
+    margin-right: 0.5vw;
     background-color: white;
     color: darkred;
 }
 
-    .deleteButton2:hover {
-        background-color: darkred;
-        color: white;
-    }
+.deleteButton2:hover {
+    background-color: darkred;
+    color: white;
+}
 
 .editButton2 {
     margin: 1%;
@@ -895,9 +900,9 @@
     height: 200%;
     border: solid 1px;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 0.5vw;
     background-color: white;
     color: #868686;
 }

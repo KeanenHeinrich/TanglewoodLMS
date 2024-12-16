@@ -19,6 +19,13 @@
                 </div>
             </div>
         </div>
+        <div id="errorDiv" runat="server" style="position: absolute; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 1000; background-color: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center;">      
+            <div id="errorPopup" class="popup">
+                <asp:Label ID="errorHeading" class="popupHeading" runat="server" Text="INVALID ACTION"></asp:Label>
+                <asp:Label ID="errorLabel" runat="server"></asp:Label>
+                <asp:Button ID="errorCont" runat="server" Text="CONTINUE" Onclick="errorCont_Click"/>
+            </div>
+        </div>
         <link rel="stylesheet" type="text/css" href="style.css" />
         <div id="headerAllStudents">
             <asp:Label ID="header" runat="server" Text="ADMIN - STAFF MANAGEMENT"></asp:Label>
@@ -41,13 +48,13 @@
                                           <asp:Label ID="nameLabel" runat="server" Text="Name:"></asp:Label>
                                       </asp:TableCell>
                                       <asp:TableCell>
-                                          <asp:TextBox ID="nameBox" runat="server" Placeholder="Name"></asp:TextBox>
+                                          <asp:TextBox ID="nameBox" runat="server" Placeholder="Name" OnTextChanged="nameBox_TextChanged"></asp:TextBox>
                                       </asp:TableCell>
                                       <asp:TableCell>
                                           <asp:Label ID="surnameLabel" runat="server" Text="Surname:"></asp:Label>
                                       </asp:TableCell>
                                       <asp:TableCell>
-                                          <asp:TextBox ID="surnameBox" runat="server" Placeholder="Surname"></asp:TextBox>
+                                          <asp:TextBox ID="surnameBox" runat="server" Placeholder="Surname" OnTextChanged="surnameBox_TextChanged"></asp:TextBox>
                                       </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
@@ -71,13 +78,13 @@
                                           <asp:Label ID="usernameLabel" runat="server" Text="Username:"></asp:Label>
                                       </asp:TableCell>
                                       <asp:TableCell>
-                                          <asp:TextBox ID="usernameText" runat="server" Placeholder="Enter New Username" ></asp:TextBox>
+                                          <asp:TextBox ID="usernameText" runat="server" Placeholder="Enter New Username" OnTextChanged="usernameText_TextChanged" ></asp:TextBox>
                                       </asp:TableCell>
                                     <asp:TableCell>
                                         <asp:Label ID="passwordLabel" runat="server" Text="Password:"></asp:Label>
                                     </asp:TableCell>
                                     <asp:TableCell>
-                                        <asp:TextBox ID="passwordText" runat="server" Placeholder="Enter New Password"></asp:TextBox>
+                                        <asp:TextBox ID="passwordText" runat="server" Placeholder="Enter New Password" OnTextChanged="passwordText_TextChanged" ></asp:TextBox>
                                     </asp:TableCell>
                                 </asp:TableRow>
                           </asp:Table>

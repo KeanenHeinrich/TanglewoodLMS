@@ -25,7 +25,8 @@ namespace TanglewoodLMS
                 }
                 catch (Exception ex)
                 {
-                    errorLabel.Text = (ex.ToString());
+                    errorDiv.Style["display"] = "flex";
+                    errorLabel.Text = ex.ToString();
                 }
             }
         }
@@ -86,7 +87,8 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
-                errorLabel.Text = (ex.ToString());
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
                 return null;
             }
         }
@@ -150,7 +152,8 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
-                errorLabel.Text = (ex.ToString());
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
@@ -164,6 +167,30 @@ namespace TanglewoodLMS
         {
             try
             {
+                SqlConnection con2 = CreateConnection();
+                using (SqlCommand cmd = new SqlCommand("dbo.FetchMaxMarks", con2) { CommandType = System.Data.CommandType.StoredProcedure })
+                {
+                    TemplateField field;
+                    cmd.Parameters.Add(new SqlParameter("@Class", classList.SelectedValue));
+                    cmd.Parameters.Add(new SqlParameter("@Year", ((DateTime.Now).ToString().Substring(0, Math.Min(4, (DateTime.Now).ToString().Length)))));
+                    using (SqlDataReader reader2 = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        if (reader2.HasRows)
+                        {
+                            reader2.Read();
+                            for (int i = 0; i < 3; i++)
+                            {
+                                field = markbookView.Columns[(i + 2)] as TemplateField;
+                                switch (i)
+                                {
+                                    case 0: field.HeaderText = reader2["intTotalMark1"].ToString(); break;
+                                    case 1: field.HeaderText = reader2["intTotalMark2"].ToString(); break;
+                                    case 2: field.HeaderText = reader2["intTotalMark3"].ToString(); break;
+                                }
+                            }
+                        }
+                    }
+                }
                 SqlConnection con = CreateConnection();
                 using (SqlCommand cmd = new SqlCommand("dbo.FetchMarkbook", con) { CommandType = System.Data.CommandType.StoredProcedure })
                 {
@@ -181,35 +208,11 @@ namespace TanglewoodLMS
                         }
                     }
                 }
-                SqlConnection con2 = CreateConnection();
-                using (SqlCommand cmd = new SqlCommand("dbo.FetchMaxMarks", con2) { CommandType = System.Data.CommandType.StoredProcedure })
-                {
-                    TemplateField field;
-                    cmd.Parameters.Add(new SqlParameter("@Class", classList.SelectedValue));
-                    cmd.Parameters.Add(new SqlParameter("@Year", ((DateTime.Now).ToString().Substring(0, Math.Min(4, (DateTime.Now).ToString().Length)))));
-                    using (SqlDataReader reader2 = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                    {
-                        if (reader2.HasRows)
-                        {
-                            
-                            reader2.Read();
-                            for (int i = 0; i < 3; i++)
-                            {
-                                field = markbookView.Columns[(i+2)] as TemplateField;
-                                switch (i)
-                                {
-                                    case 0: field.HeaderText = reader2["intTotalMark1"].ToString(); break;
-                                    case 1: field.HeaderText = reader2["intTotalMark2"].ToString(); break;
-                                    case 2: field.HeaderText = reader2["intTotalMark3"].ToString(); break;
-                                }
-                            }
-                        }
-                    }
-                }
             }
             catch (Exception ex)
             {
-                errorLabel.Text = (ex.ToString());
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
@@ -247,6 +250,7 @@ namespace TanglewoodLMS
             }
             catch( Exception ex)
             {
+                errorDiv.Style["display"] = "flex";
                 errorLabel.Text = ex.ToString();
             }
         }
@@ -279,13 +283,25 @@ namespace TanglewoodLMS
             }
             catch (Exception ex)
             {
-                errorLabel.Text = ex.Message;
+                errorDiv.Style["display"] = "flex";
+                errorLabel.Text = ex.ToString();
             }
         }
 
         public void CreateTitle()
         {
             markHeader.Text = subjectList.SelectedItem + " Markbook - " + gradeList.SelectedItem + " - " + (DateTime.Now).ToString().Substring(0, Math.Min(4, (DateTime.Now).ToString().Length));
+        }
+
+        protected void errorCont_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                errorDiv.Style["display"] = "none";
+            }
+            catch
+            {
+            }
         }
     }
 }

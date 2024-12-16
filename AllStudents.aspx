@@ -19,18 +19,29 @@
                 </div>
             </div>
         </div>
+        <div id="errorDiv" runat="server" style="position: absolute; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 1000; background-color: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center;">      
+            <div id="errorPopup" class="popup">
+                <asp:Label ID="errorHeading" class="popupHeading" runat="server" Text="INVALID ACTION"></asp:Label>
+                <asp:Label ID="errorLabel" runat="server"></asp:Label>
+                <asp:Button ID="errorCont" runat="server" Text="CONTINUE" Onclick="errorCont_Click"/>
+            </div>
+        </div>
         <div id="editClasses" runat="server" style="position: absolute; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 1000; background-color: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center;">      
             <div id="popup2" class="popup">
                 <asp:Label ID="popupHeading2" class="popupHeading" runat="server" Text="Assign Classes"></asp:Label>
                 <asp:HiddenField ID="idxStore2" runat="server" Value="" />
                 <br />
+                <asp:DropDownList ID="gradeDropDown" runat="server">
+                    <asp:ListItem Text="Grade" Value="" Selected="True"></asp:ListItem>
+                </asp:DropDownList>
                 <div id="container" style="overflow-y: scroll; height: 100%; width:100%;">
-                <asp:Repeater ID="classAssignRepeater" runat="server">
+                <asp:Repeater ID="classAssignRepeater" runat="server" OnItemCommand="classAssignRepeater_ItemCommand">
                     <ItemTemplate>
                         <div style="height: 30px; margin-bottom: 10px;">
+                            <asp:HiddenField ID="classHidden" runat="server" Value='<%# Eval("txtClass") %>' />
                             <asp:Label id="itemClass" runat="server"><%# Eval("txtClass") %></asp:Label>
-                            <asp:Button ID="addClass" CssClass="addRemove" runat="server" Text="Assign" Visible="false" />
-                            <asp:Button ID="removeClass" CssClass="addRemove" runat="server" Text="Unassign" />
+                            <asp:Button ID="addClass" CssClass="addRemove" runat="server" Text="Assign" CommandName="addClass" CommandArgument='<%# Eval("txtClass") %>' />
+                            <asp:Button ID="removeClass" CssClass="addRemove" runat="server" Text="Unassign" Visible="false" CommandName="removeClass" CommandArgument='<%# Eval("txtClass") %>' />
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -72,13 +83,13 @@
                                       <asp:Label ID="nameLabel" runat="server" Text="Name:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="nameBox" runat="server" Placeholder="Name"></asp:TextBox>
+                                      <asp:TextBox ID="nameBox" runat="server" Placeholder="Name" OnTextChanged="nameBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                                   <asp:TableCell>
                                       <asp:Label ID="surnameLabel" runat="server" Text="Surname:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="surnameBox" runat="server" Placeholder="Surname"></asp:TextBox>
+                                      <asp:TextBox ID="surnameBox" runat="server" Placeholder="Surname" OnTextChanged="surnameBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
@@ -86,13 +97,13 @@
                                       <asp:Label ID="idLabel" runat="server" Text="Student ID:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="ID" runat="server" Placeholder="Student ID"></asp:TextBox>
+                                      <asp:TextBox ID="ID" runat="server" Placeholder="Student ID" Enabled="false"></asp:TextBox>
                                   </asp:TableCell>
                                   <asp:TableCell>
                                       <asp:Label ID="govLabel" runat="server" Text="Government ID:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="govBox" runat="server" Placeholder="Government ID"></asp:TextBox>
+                                      <asp:TextBox ID="govBox" runat="server" Placeholder="Government ID" OnTextChanged="govBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
@@ -100,13 +111,13 @@
                                       <asp:Label ID="enrollLabel" runat="server" Text="Date Enrolled:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="enrollBox" runat="server" Placeholder="Enrollment Date"></asp:TextBox>
+                                      <asp:TextBox ID="enrollBox" runat="server" Placeholder="Enrollment Date" Enabled="false"></asp:TextBox>
                                   </asp:TableCell>
                                   <asp:TableCell>
                                       <asp:Label ID="addressLabel" runat="server" Text="Home Address:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="addressBox" runat="server" Placeholder="Home Address"></asp:TextBox>
+                                      <asp:TextBox ID="addressBox" runat="server" Placeholder="Home Address" OnTextChanged="addressBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
@@ -114,13 +125,13 @@
                                       <asp:Label ID="genderLabel" runat="server" Text="Gender:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="genderBox" runat="server" Placeholder="Gender"></asp:TextBox>
+                                      <asp:TextBox ID="genderBox" runat="server" Placeholder="Gender" OnTextChanged="genderBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:Label ID="dobLabel" runat="server" Text="Date of Birth:"></asp:Label>
+                                      <asp:Label ID="diffLabel" runat="server" Text="Learning Difficulties:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="dobBox" runat="server" Placeholder="Date of Birth"></asp:TextBox>
+                                      <asp:TextBox ID="diffBox" runat="server" Placeholder="Learning Difficulties" OnTextChanged="diffBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
@@ -128,25 +139,25 @@
                                       <asp:Label ID="emailLabel" runat="server" Text="Parent Email:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="emailBox" runat="server" Placeholder="Parent Email"></asp:TextBox>
+                                      <asp:TextBox ID="emailBox" runat="server" Placeholder="Parent Email" OnTextChanged="emailBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                                   <asp:TableCell>
                                       <asp:Label ID="phoneLabel" runat="server" Text="Parent Phone Number:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="phoneBox" runat="server" Placeholder="Parent Phone Number"></asp:TextBox>
+                                      <asp:TextBox ID="phoneBox" runat="server" Placeholder="Parent Phone Number" OnTextChanged="phoneBox_TextChanged"></asp:TextBox>
                                   </asp:TableCell>
                               </asp:TableRow>
                               <asp:TableRow>
                                   <asp:TableCell>
-                                      <asp:Label ID="diffLabel" runat="server" Text="Learning Difficulties:"></asp:Label>
+                                      <asp:Label ID="dobLabel" runat="server" Text="Date of Birth:"></asp:Label>
                                   </asp:TableCell>
                                   <asp:TableCell>
-                                      <asp:TextBox ID="diffBox" runat="server" Placeholder="Learning Difficulties"></asp:TextBox>
+                                      <asp:Calendar ID="dobCal" runat="server"></asp:Calendar>
                                   </asp:TableCell>
                               </asp:TableRow>
                           </asp:Table>
-                          <asp:TextBox ID="noteBox" runat="server" Placeholder="Additional Notes" TextMode="MultiLine" style="min-height: 20%; margin-top: 1%;"></asp:TextBox>
+                          <asp:TextBox ID="noteBox" runat="server" Placeholder="Additional Notes" TextMode="MultiLine" style="min-height: 20%; margin-top: 1%;" OnTextChanged="noteBox_TextChanged"></asp:TextBox>
                           <div id="studentClasses" style="display: flex; flex-direction: column; align-items: center; margin: 1%;">
                           <asp:Label ID="classList" runat="server" Text="Assigned Classes" Font-Size="20pt"></asp:Label>
                               <br />

@@ -9,6 +9,13 @@
 <body>
     <form id="Markbook" runat="server">
         <link rel="stylesheet" type="text/css" href="style.css" />
+        <div id="errorDiv" runat="server" style="position: absolute; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 1000; background-color: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center;">      
+            <div id="errorPopup" class="popup">
+                <asp:Label ID="errorHeading" class="popupHeading" runat="server" Text="INVALID ACTION"></asp:Label>
+                <asp:Label ID="Label1" runat="server"></asp:Label>
+                <asp:Button ID="errorCont" runat="server" Text="CONTINUE" Onclick="errorCont_Click"/>
+            </div>
+        </div>
         <div id="filters">
             <div id="heading">
                 <asp:Label ID="titleCard" runat="server" Text="MARKBOOKS"></asp:Label>
